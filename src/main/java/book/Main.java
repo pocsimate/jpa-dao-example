@@ -13,14 +13,19 @@ public class Main {
         BookDao bookDao = injector.getInstance(BookDao.class);
         BookGenerator bookGenerator = new BookGenerator();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             Book book = bookGenerator.randomBook();
             bookDao.persist(book);
         }
 
+        Book bookN = BookGenerator.randomBook();
+        bookDao.persist(bookN);
+        String isbn = bookN.getIsbn13();
+
         bookDao.findAll()
-                .stream()
                 .forEach(System.out::println);
+
+        System.out.println(bookDao.findByIsbn13(isbn));
 
     }
 }
